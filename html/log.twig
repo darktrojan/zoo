@@ -1,0 +1,22 @@
+{% extends "page.twig" %}
+
+{% block content %}
+	<ul>
+	{% for i in log %}
+		<li>
+		{% if i.action == "repo_new" %}
+			{{ i.db_user.name }} created <a href="/{{ i.repo }}/repo.php">{{ i.repo }}</a>
+		{% elseif i.action == "repo_update" %}
+			{{ i.db_user.name }} updated <a href="/{{ i.repo }}/repo.php">{{ i.repo }}</a>
+		{% elseif i.action == "locale_new" %}
+			{{ i.db_user.name }} created <a href="/{{ i.repo }}/{{ i.locale }}/locale.php">{{ global_locales[i.locale] }}</a> for <a href="/{{ i.repo }}/repo.php">{{ i.repo }}</a>
+		{% elseif i.action == "locale_update" %}
+			{{ i.db_user.name }} updated <a href="/{{ i.repo }}/{{ i.locale }}/locale.php">{{ global_locales[i.locale] }}</a> for <a href="/{{ i.repo }}/repo.php">{{ i.repo }}</a>
+		{% elseif i.action == "locale_pullrequest" %}
+			{{ i.db_user.name }} sent a pull request for <a href="/{{ i.repo }}/{{ i.locale }}/locale.php">{{ global_locales[i.locale] }}</a> for <a href="/{{ i.repo }}/repo.php">{{ i.repo }}</a>
+		{% endif %}
+		{{ i.created | date("j F") }}
+		</li>
+	{% endfor %}
+	</ul>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "page.twig" %}
+
+{% block content %}
+	<p>Hi! You must be new here. Please choose a username for this website. This can be your real name or an alias.</p>
+	<form method="post">
+		<input type="hidden" name="referer" value="{{ referer }}" />
+		<input type="hidden" name="email" value="{{ session_user }}" />
+		<label>Username: <input type="text" name="name" required="" /></label>
+		<input type="submit" value="Continue">
+	</form>
+{% endblock content %}

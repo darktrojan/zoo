@@ -1,0 +1,43 @@
+{% extends "page.twig" %}
+
+{% block title %}{{ repo.fullname }} : {{ locale.name }} / {{ file }}{% endblock %}
+
+{% block style %}
+td.key {
+	max-width: 300px;
+}
+td.value {
+	width: 500px;
+}
+{% endblock style %}
+
+{% block content %}
+	<h2>{{ repo.owner }} / <b><a href="../repo.php">{{ repo.name }}</a></b> : {{ locale.name }} / {{ file }}</h2>
+
+	<form action="save.php" method="post"><input type="hidden" name="file" value="{{ file }}" />
+
+	<table>
+	{% for s in strings %}
+		<tr>
+		<td class="key" style="font-size: 11px">
+		<b>{{ s.key }}</b>
+		{% if s.comment %}
+			<br />
+			<i>{{ s.comment }}</i>
+		{% endif %}
+		</td>
+		<td class="value">
+			{{ s.base_value }}<br />
+			<input type="text" name="locale_strings[{{ s.key }}]" value="{{ s.locale_value }}" style="width: 100%; -moz-box-sizing: border-box" />
+		</td>
+		</tr>
+	{% endfor %}
+	<tr>
+		<td class="submit" colspan="2">
+			<input type="submit" value="Save" />
+		</td>
+	</tr>
+	</table>
+
+	</form>
+{% endblock content %}

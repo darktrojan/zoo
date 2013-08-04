@@ -1,0 +1,34 @@
+{% extends "page.twig" %}
+
+{% block title %}{{ repo.fullname }} : {{ locale.name }} / {{ file }}{% endblock %}
+
+{% block style %}
+td.key {
+	max-width: 300px;
+}
+td.value {
+	width: 500px;
+}
+{% endblock style %}
+
+{% block content %}
+	<h2>{{ repo.owner }} / <b><a href="../repo.php">{{ repo.name }}</a></b> : {{ locale.name }} / {{ file }}</h2>
+
+	<table>
+	{% for s in strings %}
+		<tr>
+		<td class="key" style="font-size: 11px">
+		<b>{{ s.key }}</b>
+		{% if s.comment %}
+			<br />
+			<i>{{ s.comment }}</i>
+		{% endif %}
+		</td>
+		<td class="value">
+			{{ s.base_value }}<br />
+			{{ s.locale_value }}
+		</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% endblock content %}

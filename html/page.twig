@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{% block title %}{% endblock %}</title>
+<link rel="stylesheet" href="/persona/buttons.css" />
+<link rel="stylesheet" href="/page.css" />
+<style>
+{% block style %}{% endblock %}
+</style>
+</head>
+<body>
+
+<div id="container">
+
+<div style="line-height: 42px; margin-bottom: 2em;">
+	<a href="/" style="display: inline-block; float: left;">
+		<img src="/images/header.svg" />
+	</a>
+	<div style="text-align: right">
+	{% if db_user %}
+		<a href="/dash.php">{{ db_user.email }}</a>
+		<!-- <input id="signout" type="button" value="Sign Out" /> -->
+		<a href="#" id="signout" class="persona-button"><span>Sign Out</span></a>
+	{% else %}
+		<!-- <input id="signin" type="button" value="Sign In" /> -->
+		<a href="#" id="signin" class="persona-button"><span>Sign In</span></a>
+	{% endif %}
+	</div>
+</div>
+
+{% if commands is not empty %}
+	<div id="beforecommands">
+	{% block beforecommands %}
+		<input type="button" onclick="start_commands();" value="Run all" />
+	{% endblock %}
+	</div>
+	<div id="commands"
+	{% if command_redirect is not null %}
+		 data-redirect="{{ command_redirect }}"
+	{% endif %}
+	>
+	{% for command in commands %}
+		{% include "command.twig" with { "command": command } %}
+	{% endfor %}
+	</div>
+	<div id="aftercommands" class="hidden">
+	{% block aftercommands %}{% endblock %}
+	</div>
+	<script src="/command.js"></script>
+{% endif %}
+
+{% block content %}{% endblock %}
+</div>
+
+{% for s in scripts %}
+<script src="{{ s }}"></script>
+{% endfor %}
+
+{% block script %}{% endblock %}
+
+</body>
+</html>

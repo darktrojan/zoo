@@ -1,0 +1,66 @@
+body {
+	font-family: helvetica, sans-serif;
+	text-align: center;
+	font-size: 13px;
+	line-height: 1.4;
+}
+div#container {
+	width: 980px;
+	margin: 0 auto;
+	padding: 0 10px;
+	text-align: left;
+}
+a {
+	color: rgb(32, 65, 196);
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+.persona-button {
+	vertical-align: middle;
+}
+.hidden {
+	display: none;
+}
+.command {
+	border: 1px #999 dashed;
+	padding: 0.5em;
+	transition: background-color 200ms;
+}
+.command.running {
+	background-color: rgba(0, 204, 0, 0.25);
+}
+.command > pre {
+	display: none;
+}
+h1 {
+	font-weight: normal;
+	font-size: 23px;
+}
+h2 {
+	font-weight: normal;
+	font-size: 20px;
+}
+h3 {
+	font-weight: normal;
+	font-size: 17px;
+}
+table {
+	border-collapse: collapse;
+}
+tr:nth-of-type(2n+1) {
+	background-color: #f7f7f7;
+}
+td, th {
+	padding: 4px;
+}
+td.submit {
+	text-align: right;
+}
+.floatright {
+	float: right;
+}
+.floatright > :first-child {
+	margin-top: 0;
+}

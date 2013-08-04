@@ -1,0 +1,23 @@
+{% extends "page.twig" %}
+
+{% block style %}
+.ok {
+	display: inline-block;
+	height: 10px;
+	background-color: green;
+}
+{% endblock %}
+
+{% block content %}
+	<p>There are currently {{ repos | length - 1 }} repos.</p>
+    
+	{% for item in repos %}
+		{% if loop.first %}
+			<ul>
+		{% endif %}
+		<li><a href="/{{ item.path }}/repo.php">{{ item.path }}</a> ({{ item.total_count }} language{{ item.total_count | pluralize("s") }}, {{ item.managed_count }} managed here)</li>
+		{% if loop.last %}
+			</ul>
+		{% endif %}
+	{% endfor %}
+{% endblock %}

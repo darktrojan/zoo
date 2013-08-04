@@ -1,0 +1,49 @@
+{% extends "page.twig" %}
+
+{% block content %}
+	{% if db_user is not null %}
+		<div class="floatright" style="width: 20em; margin-left: 2em;">
+		{% for r in myrepos %}
+			{% if loop.first %}
+				<h3>Your Repos:</h3>
+				<ul>
+			{% endif %}
+			<li><a href="/{{ r.path }}/repo.php">{{ r.path }}</a></li>
+			{% if loop.last %}
+				</ul>
+			{% endif %}
+		{% endfor %}
+
+		{% for t in mytranslations %}
+			{% if loop.first %}
+				<h3>Your Translations:</h3>
+				<ul>
+			{% endif %}
+			<li><a href="/{{ t.repo }}/{{ t.locale }}/locale.php">{{ t.repo }} &ndash; {{ t.locale_name | default(t.locale) }}</a></li>
+			{% if loop.last %}
+				</ul>
+			{% endif %}
+		{% endfor %}
+		</div>
+	{% endif %}
+
+	<h1>Welcome to Zoo!</h1>
+
+	<p>Zoo is a means of localizing Mozilla extensions that uses Git and GitHub for file management. There are currently <a href="/repos.php">{{ repos | length }} repos</a>, and translations in <a href="/locales.php">{{ summary | length - 1 }} languages</a>.</p>
+
+	<p>Known issues:</p>
+	<ul>
+	<li>Source repositories currently require exactly 1 chrome.manifest file. This means Jetpack add-ons can't be localized here (yet).</li>
+	<li><s>The chrome.manifest isn't updated when new translations are added.</s></li>
+	<li><s>When adding a new repo or updating, only the master branch can be used.</s> Working with different branches is fragile. I don't recomment it.</li>
+	<li>I haven't optimized the website code in any way, and there may be security holes I haven't yet thought through. That's why the source is not yet available.</li>
+	<li>Some locales aren't available. In most cases this is for a technical reason (I just haven't fixed it yet).</li>
+	<li>Right-to-left just doesn't happen here yet.</li>
+	</ul>
+
+	<p>You can file issues on <a href="https://github.com/darktrojan/zoo/issues">Zoo's GitHub page</a>.</p>
+
+	{% if db_user is null %}
+		<p>To begin translating, click the Sign In button in the top right corner.</p>
+	{% endif %}
+{% endblock %}

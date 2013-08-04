@@ -1,0 +1,7 @@
+<div class="command hidden"
+{% for a, p in command if a != "string" %}
+	data-{{ a }}="{{ p }}"
+{% endfor %}
+>{{ command.string }}
+{#<input type="button" onclick="run_command(this.parentNode);" value="Run" />#}
+</div>

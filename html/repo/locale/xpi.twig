@@ -1,0 +1,9 @@
+{% extends "page.twig" %}
+
+{% block beforecommands %}
+	<p>We'll now package the add-on with your changes. <input type="button" onclick="start_commands();" value="Begin" /></p>
+{% endblock %}
+
+{% block aftercommands %}
+	<p><a href="{{ output_http }}">Download here.</a> Firefox will attempt to install it if you left click, otherwise right click and choose <q>Save Link As…</q>.</p>
+{% endblock %}

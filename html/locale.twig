@@ -1,0 +1,40 @@
+{% extends "page.twig" %}
+
+{% block content %}
+	<h2>{{ locale_name }}</h2>
+
+	{% for item in missing %}
+		{% if loop.first %}
+			Repos missing {{ locale_name }} translation:
+			<ul>
+		{% endif %}
+		<li><a href="/{{ item.path }}/repo.php">{{ item.path }}</a></li>
+		{% if loop.last %}
+			</ul>
+		{% endif %}
+	{% endfor %}
+
+	{% set did_loop = false %}
+	{% for item in repos if item not in missing %}
+		{% set did_loop = true %}
+		{% if loop.first %}
+			Repos with {{ locale_name }} translation:
+			<ul>
+		{% endif %}
+		<li><a href="/{{ item.path }}/repo.php">{{ item.path }}</a></li>
+	{% endfor %}
+	{% if did_loop %}
+		</ul>
+	{% endif %}
+
+	{% for item in translators %}
+		{% if loop.first %}
+			{{ locale_name }} translators:
+			<ul>
+		{% endif %}
+		<li>{{ item.name }}</li>
+		{% if loop.last %}
+			</ul>
+		{% endif %}
+	{% endfor %}
+{% endblock %}

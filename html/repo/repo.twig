@@ -1,0 +1,94 @@
+{% extends "page.twig" %}
+
+{% block title %}{{ repo.fullname }}{% endblock %}
+
+{% block style %}
+.ok {
+	display: inline-block;
+	height: 10px;
+	background-color: green;
+}
+.dupe {
+	display: inline-block;
+	height: 10px;
+	background-color: orange;
+}
+.notok {
+	display: inline-block;
+	height: 10px;
+	background-color: red;
+}
+{% endblock %}
+
+{% block content %}
+	<h2>{{ repo.owner }} / <b>{{ repo.name }}</b></h2>
+	{% for l in repo_locales %}
+		{% set s = l.summary %}
+		{% set ok = s.string_count - s.string_dupe %}
+		{% set notok = base_summary.string_count - s.string_count %}
+
+		{% if loop.first %}
+			<table>
+			<tr>
+			<th></th>
+			<th>Updated</th>
+			<th>Summary</th>
+			</tr>
+		{% endif %}
+		<tr>
+		<td>
+		{#% if l.key in db_user.locales %#}
+			{% if l.new %}
+				{#<a href="?create={{ l.key }}">{{ l.name | default(l.key) }}</a>#}
+				{{ l.name | default(l.key) }}
+			{% else %}
+				<a href="{{ l.key }}/locale.php">{{ l.name | default(l.key) }}</a>
+			{% endif %}
+		{#% else %}
+			{{ l.name | default(l.key) }}
+		{% endif %#}
+		</td>
+		<td>{% if s is not null %}{{ s.updated | date("Y-m-d") }}{% endif %}</td>
+		<td>
+		{% if s is not null %}
+			{% spaceless %}
+			{% if ok %}
+				<div class="ok" title="{{ ok }} string{{ ok | pluralize("s have", " has") }} been translated" style="width: {{ ok * 10 }}px"></div>
+			{% endif %}
+			{% if s.string_dupe %}
+				<div class="dupe" title="{{ s.string_dupe }} string{{ s.string_dupe | pluralize("s match", " matches") }} the en-US string" style="width: {{ s.string_dupe * 10 }}px"></div>
+			{% endif %}
+			{% if notok %}
+				<div class="notok" title="{{ notok }} string{{ notok | pluralize("s are", " is") }} missing" style="width: {{ notok * 10 }}px"></div>
+			{% endif %}
+			{% endspaceless %}
+		{% endif %}
+		</td>
+		</tr>
+		{% if loop.last %}
+			</table>
+		{% endif %}
+	{% else %}
+		<p>No translations exist yet.</p>
+	{% endfor %}
+
+	{% if db_user is not null %}
+		<form action="new.php" method="post">
+		<p>
+		Create a new translation: <select name="locale" required="">
+		<option></option>
+		{% for k, l in global_locales %}
+			{% if repo_locales[k] is null and k != "en-US" %}
+				<option value="{{ k }}">{{ l }}</option>
+			{% endif %}
+		{% endfor %}
+		</select>
+		<input type="submit" value="Go" />
+		</p>
+		</form>
+	{% endif %}
+
+	{% if repo.user_is_owner %}
+		<p><input type="button" onclick="location.href='update.php'" value="Update repository" /></p>
+	{% endif %}
+{% endblock %}

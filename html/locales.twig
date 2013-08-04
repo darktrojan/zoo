@@ -1,0 +1,27 @@
+{% extends "page.twig" %}
+
+{% block style %}
+.ok {
+	display: inline-block;
+	height: 10px;
+	background-color: green;
+}
+{% endblock %}
+
+{% block content %}
+	<p>There are currently translations in {{ summary | length - 1 }} languages.</p>
+
+	<table>
+	{% for item in summary %}
+		{% if loop.first %}
+			{% set max = item.string_count %}
+		{% else %}
+			<tr>
+			<td><a href="/locale.php?locale={{ item.locale }}">{{ global_locales[item.locale] }}</a></td>
+			<td width="200"><div class="ok" style="width: {{ (item.string_count / max * 200) | number_format(0) }}px"></div></td>
+			<td align="right">{{ (item.string_count / max * 100) | number_format(0) }}%</td>
+			</tr>
+		{% endif %}
+	{% endfor %}
+	</table>
+{% endblock %}
