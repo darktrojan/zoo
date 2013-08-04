@@ -6,6 +6,11 @@
 	height: 10px;
 	background-color: green;
 }
+.dupe {
+	display: inline-block;
+	height: 10px;
+	background-color: orange;
+}
 {% endblock %}
 
 {% block content %}
@@ -16,9 +21,19 @@
 		{% if loop.first %}
 			{% set max = item.string_count %}
 		{% else %}
+			{% set ok = item.string_count - item.string_dupe %}
 			<tr>
 			<td><a href="/locale.php?locale={{ item.locale }}">{{ global_locales[item.locale] }}</a></td>
-			<td width="200"><div class="ok" style="width: {{ (item.string_count / max * 200) | number_format(0) }}px"></div></td>
+			{% spaceless %}
+			<td width="200">
+				{% if ok %}
+					<div class="ok" style="width: {{ (ok / max * 200) | number_format(0) }}px"></div>
+				{% endif %}
+				{% if item.string_dupe %}
+					<div class="dupe" style="width: {{ (item.string_dupe / max * 200) | number_format(0) }}px"></div>
+				{% endif %}
+			</td>
+			{% endspaceless %}
 			<td align="right">{{ (item.string_count / max * 100) | number_format(0) }}%</td>
 			</tr>
 		{% endif %}
