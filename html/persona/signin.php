@@ -8,7 +8,7 @@ if ($retVal == 0) {
 	$data = json_decode($output, true);
 
 	if ($data['status'] == 'okay') {
-		setSessionCookies($data['email']);
+		set_session_cookies($data['email']);
 
 		$db_user = Users::SelectOneUserByEmail($data['email']);
 		if ($db_user) {
