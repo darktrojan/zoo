@@ -61,6 +61,13 @@ td.submit {
 .floatright {
 	float: right;
 }
-.floatright > :first-child {
+.floatright > :first-child,
+.floatright > :first-child > :first-child {
 	margin-top: 0;
+}
+.leftcolumn {
+	margin-right: 22em;
+}
+.rightcolumn {
+	width: 20em;
 }

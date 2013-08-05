@@ -1,8 +1,10 @@
 {% extends "page.twig" %}
 
 {% block content %}
+	<h1>Welcome to Zoo!</h1>
+
 	{% if db_user is not null %}
-		<div class="floatright" style="width: 20em; margin-left: 2em;">
+		<div class="floatright rightcolumn">
 		{% for r in myrepos %}
 			{% if loop.first %}
 				<h3>Your Repos:</h3>
@@ -25,9 +27,9 @@
 			{% endif %}
 		{% endfor %}
 		</div>
-	{% endif %}
 
-	<h1>Welcome to Zoo!</h1>
+		<div class="leftcolumn">
+	{% endif %}
 
 	<p>Zoo is a means of localizing Mozilla extensions that uses Git and GitHub for file management. There are currently <a href="/repos.php">{{ repos | length }} repos</a>, and translations in <a href="/locales.php">{{ summary | length - 1 }} languages</a>.</p>
 
@@ -45,5 +47,7 @@
 
 	{% if db_user is null %}
 		<p>To begin translating, click the Sign In button in the top right corner.</p>
+	{% else %}
+		</div>
 	{% endif %}
 {% endblock %}
