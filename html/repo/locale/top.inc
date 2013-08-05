@@ -56,6 +56,5 @@ function get_locale_strings() {
 	global $script_root, $locale_path_abs, $locale, $file;
 
 	$json = run($script_root.'/parse_strings.py '.$locale_path_abs.'/'.$locale.'/'.$file);
-	$json = implode("\n", $json);
-	return json_decode($json, true);
+	return json_decode($json[0], true);
 }

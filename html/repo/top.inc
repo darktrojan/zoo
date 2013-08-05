@@ -44,5 +44,5 @@ function get_base_strings() {
 
 	$json = run($script_root.'/parse.py '.
 		escapeshellarg($repo_path.'/master/'.$repo_locale_path.'/en-US/'.$file));
-	return json_decode($json, true);
+	return json_decode($json[0], true);
 }
