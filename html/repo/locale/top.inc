@@ -41,17 +41,6 @@ if ($db_user['id'] == $locale_translator) {
 	$context['locale']['db_translator'] = Users::SelectOneUser($locale_translator);
 }
 
-function git($command) {
-	global $locale_workdir, $github_user;
-
-	$command = sprintf($command, $github_user);
-
-	return sprintf(
-		'git %s 2>&1',
-		$command
-	);
-}
-
 function get_locale_strings() {
 	global $db_repo, $script_root, $locale_path_abs, $locale, $file;
 
