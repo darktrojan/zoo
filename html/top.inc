@@ -22,9 +22,10 @@ if (isset($_COOKIE['email'], $_COOKIE['session']) &&
 }
 
 if ($session_user) {
-	$db_user = Users::SelectOneUserByEmail($session_user);
-	$db_user['locales'] = $db_user['locale'] ? explode(',', $db_user['locale']) : array();
-	$context['db_user'] = &$db_user;
+	if ($db_user = Users::SelectOneUserByEmail($session_user)) {
+		$db_user['locales'] = $db_user['locale'] ? explode(',', $db_user['locale']) : array();
+		$context['db_user'] = &$db_user;
+	}
 }
 
 $scripts[] = 'https://login.persona.org/include.js';
