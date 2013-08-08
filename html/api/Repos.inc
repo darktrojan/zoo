@@ -2,13 +2,13 @@
 
 class Repos extends DBConnection {
 	static function SelectRepos() {
-		$stmt = self::CreateStatement('SELECT user, path, name, locales, xpi_path, locale_path, branch FROM repos');
+		$stmt = self::CreateStatement('SELECT user, path, name, jetpack, locales, xpi_path, locale_path, branch FROM repos');
 		self::RunStatement($stmt);
 		return $stmt->fetchAll();
 	}
 
 	static function SelectReposByUser($user) {
-		$stmt = self::CreateStatement('SELECT user, path, name, locales, xpi_path, locale_path, branch FROM repos WHERE user = :user');
+		$stmt = self::CreateStatement('SELECT user, path, name, jetpack, locales, xpi_path, locale_path, branch FROM repos WHERE user = :user');
 		self::RunStatement(
 			$stmt, array(
 				':user' => $user
@@ -18,7 +18,7 @@ class Repos extends DBConnection {
 	}
 
 	static function SelectReposWithoutTranslation($locale) {
-		$stmt = self::CreateStatement('SELECT user, path, name, locales, xpi_path, locale_path, branch FROM repos WHERE NOT FIND_IN_SET(:locale, locales)');
+		$stmt = self::CreateStatement('SELECT user, path, name, jetpack, locales, xpi_path, locale_path, branch FROM repos WHERE NOT FIND_IN_SET(:locale, locales)');
 		self::RunStatement(
 			$stmt, array(
 				':locale' => $locale
@@ -28,7 +28,7 @@ class Repos extends DBConnection {
 	}
 
 	static function SelectOneRepo($path) {
-		$stmt = self::CreateStatement('SELECT user, name, locales, xpi_path, locale_path, branch FROM repos WHERE path = :path');
+		$stmt = self::CreateStatement('SELECT user, name, jetpack, locales, xpi_path, locale_path, branch FROM repos WHERE path = :path');
 		self::RunStatement(
 			$stmt, array(
 				':path' => $path
@@ -37,15 +37,16 @@ class Repos extends DBConnection {
 		return $stmt->fetch() ?: null;
 	}
 
-	static function InsertRepo($user, $path, $name, $locales, $xpi_path, $locale_path, $branch) {
+	static function InsertRepo($user, $path, $name, $jetpack, $locales, $xpi_path, $locale_path, $branch) {
 		$stmt = self::CreateStatement(
-			'INSERT INTO repos (user, path, name, locales, xpi_path, locale_path, branch) '.
-			'VALUES (:user, :path, :name, :locales, :xpi_path, :locale_path, :branch)');
+			'INSERT INTO repos (user, path, name, jetpack, locales, xpi_path, locale_path, branch) '.
+			'VALUES (:user, :path, :name, :jetpack, :locales, :xpi_path, :locale_path, :branch)');
 		self::RunStatement(
 			$stmt, array(
 				':user' => $user,
 				':path' => $path,
 				':name' => $name,
+				':jetpack' => $jetpack,
 				':locales' => $locales,
 				':xpi_path' => $xpi_path,
 				':locale_path' => $locale_path,
@@ -55,12 +56,13 @@ class Repos extends DBConnection {
 		return self::LastInsertId();
 	}
 
-	static function UpdateRepo($path, $name, $locales, $xpi_path, $locale_path, $branch) {
-		$stmt = self::CreateStatement('UPDATE repos SET name = :name, locales = :locales, xpi_path = :xpi_path, locale_path = :locale_path, branch = :branch WHERE path = :path');
+	static function UpdateRepo($path, $name, $jetpack, $locales, $xpi_path, $locale_path, $branch) {
+		$stmt = self::CreateStatement('UPDATE repos SET name = :name, jetpack = :jetpack, locales = :locales, xpi_path = :xpi_path, locale_path = :locale_path, branch = :branch WHERE path = :path');
 		self::RunStatement(
 			$stmt, array(
 				':path' => $path,
 				':name' => $name,
+				':jetpack' => $jetpack,
 				':locales' => $locales,
 				':xpi_path' => $xpi_path,
 				':locale_path' => $locale_path,
@@ -112,6 +114,7 @@ class Repos extends DBConnection {
 				'user' => DBConnection::TYPE_INTEGER,
 				'path' => DBConnection::TYPE_STRING,
 				'name' => DBConnection::TYPE_STRING,
+				'jetpack' => DBConnection::TYPE_STRING,
 				'locales' => DBConnection::TYPE_STRING,
 				'xpi_path' => DBConnection::TYPE_STRING,
 				'locale_path' => DBConnection::TYPE_STRING,
@@ -121,6 +124,7 @@ class Repos extends DBConnection {
 			return array(
 				'path' => DBConnection::TYPE_STRING,
 				'name' => DBConnection::TYPE_STRING,
+				'jetpack' => DBConnection::TYPE_STRING,
 				'locales' => DBConnection::TYPE_STRING,
 				'xpi_path' => DBConnection::TYPE_STRING,
 				'locale_path' => DBConnection::TYPE_STRING,
