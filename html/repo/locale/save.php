@@ -45,8 +45,13 @@ foreach ($base_strings as $entity) {
 $contents = ob_get_contents();
 ob_end_clean();
 
-ensure_directory(dirname($file));
-file_put_contents($locale_path_abs.'/'.$locale.'/'.$file, $contents);
+if ($db_repo['jetpack']) {
+	file_put_contents($locale_path_abs.'/'.$locale.'.properties', $contents);
+	$file = 'en-US.properties';
+} else {
+	ensure_directory(dirname($file));
+	file_put_contents($locale_path_abs.'/'.$locale.'/'.$file, $contents);
+}
 
 Files::ReplaceFile($repo, $locale, $file, $count, $same);
 Log::InsertLogItem($db_user['id'], 'locale_update', $repo, $locale);

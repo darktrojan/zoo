@@ -53,8 +53,13 @@ function git($command) {
 }
 
 function get_locale_strings() {
-	global $script_root, $locale_path_abs, $locale, $file;
+	global $db_repo, $script_root, $locale_path_abs, $locale, $file;
 
-	$json = run($script_root.'/parse_strings.py '.$locale_path_abs.'/'.$locale.'/'.$file);
+	if ($db_repo['jetpack']) {
+		$path = $locale_path_abs.'/'.$locale.'.properties';
+	} else {
+		$path = $locale_path_abs.'/'.$locale.'/'.$file;
+	}
+	$json = run($script_root.'/parse_strings.py '.escapeshellarg($path));
 	return json_decode($json[0], true);
 }

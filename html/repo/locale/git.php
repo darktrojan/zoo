@@ -11,8 +11,12 @@ if (isset($_POST['command'])) {
 
 	switch ($command) {
 	case 'commit':
-		foreach ($repo_files as $file) {
-			run_xhr('git add '.$repo_locale_path.'/'.$locale.'/'.$file);
+		if ($db_repo['jetpack']) {
+			run_xhr('git add '.$repo_locale_path.'/'.$locale.'.properties');
+		} else {
+			foreach ($repo_files as $file) {
+				run_xhr('git add '.$repo_locale_path.'/'.$locale.'/'.$file);
+			}
 		}
 		run_xhr('git status --short');
 		run_xhr(

@@ -40,9 +40,14 @@ $context['repo'] = array(
 );
 
 function get_base_strings() {
-	global $script_root, $repo_path, $repo_locale_path, $file;
+	global $db_repo, $script_root, $repo_path, $repo_locale_path, $file;
 
-	$json = run($script_root.'/parse.py '.
-		escapeshellarg($repo_path.'/master/'.$repo_locale_path.'/en-US/'.$file));
+	if ($db_repo['jetpack']) {
+		$path = $repo_path.'/master/'.$repo_locale_path.'/en-US.properties';
+	} else {
+		$path = $repo_path.'/master/'.$repo_locale_path.'/en-US/'.$file;
+	}
+
+	$json = run($script_root.'/parse.py '.escapeshellarg($path));
 	return json_decode($json[0], true);
 }

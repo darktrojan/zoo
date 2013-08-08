@@ -54,11 +54,11 @@
 				</tr>
 			{% endif %}
 			<tr>
-			<td>{{ f.file }}</td>
+			<td>{{ l.file }}</td>
 			{% if locale.user_is_translator %}
-				<td><a href="edit.php?file={{ f.file }}">Edit</a></td>
+				<td><a href="edit.php?file={{ l.file }}">Edit</a></td>
 			{% else %}
-				<td><a href="view.php?file={{ f.file }}">View</a></td>
+				<td><a href="view.php?file={{ l.file }}">View</a></td>
 			{% endif %}
 			<td>{% if l %}{{ l.updated | date("Y-m-d") }}{% endif %}</td>
 			<td>

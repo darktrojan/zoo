@@ -9,7 +9,12 @@ if ($locale_user_is_translator) {
 
 $files = array();
 foreach (Files::SelectFilesByLocale($repo, $locale) as $file) {
-	$files[$file['file']] = $file;
+	if ($db_repo['jetpack']) {
+		$file['file'] = $locale.'.properties';
+		$files['en-US.properties'] = $file;
+	} else {
+		$files[$file['file']] = $file;
+	}
 }
 
 require_once 'twig.inc';

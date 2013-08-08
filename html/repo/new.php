@@ -44,12 +44,21 @@ if (isset($_POST['command'])) {
 
 	case 'copy':
 		chdir($locale_workdir);
-		if (!is_dir($locale_path_abs.'/'.$locale)) {
+		if ($db_repo['jetpack']) {
+			$src = $repo_locale_path.'/en-US.properties';
+			$dest = $repo_locale_path.'/'.$locale.'.properties';
+
+			if (!file_exists($dest)) {
+				copy($src, $dest);
+				run_xhr('git add '.escapeshellarg($dest));
+			}
+
+		} else if (!is_dir($locale_path_abs.'/'.$locale)) {
 			foreach ($db_files as $file) {
 				$dest = $locale_path_abs.'/'.$locale.'/'.$file['file'];
 				ensure_dir($dest, $locale_path_abs);
 				copy($locale_path_abs.'/en-US/'.$file['file'], $dest);
-				run_xhr('git add '.$repo_locale_path.'/'.$locale.'/'.$file['file']);
+				run_xhr('git add '.escapeshellarg($repo_locale_path.'/'.$locale.'/'.$file['file']));
 			}
 			$cm = new ChromeManifest($locale_xpi_path_abs.'/chrome.manifest');
 			$cm->add_locale($locale);

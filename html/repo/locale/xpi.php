@@ -13,6 +13,15 @@ if (isset($_POST['command'])) {
 			'zip -r %s * -x .git', escapeshellarg($output_abs)
 		));
 		break;
+	case 'cfx':
+		$cfx_path = $script_root.'/addon-sdk/bin/cfx';
+		run_xhr(sprintf(
+			'%s xpi --pkgdir %s --output-file %s',
+			$cfx_path,
+			escapeshellarg($locale_xpi_path_abs),
+			escapeshellarg($output_abs)
+		));
+		break;
 	}
 
 	exit;
@@ -20,7 +29,7 @@ if (isset($_POST['command'])) {
 
 $commands[] = array(
 	'string' => 'Packaging',
-	'name' => 'zip'
+	'name' => $db_repo['jetpack'] ? 'cfx' : 'zip'
 );
 
 require_once 'twig.inc';
