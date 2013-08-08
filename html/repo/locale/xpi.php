@@ -1,7 +1,7 @@
 <?
 
 $output_http = sprintf('/xpi/%s_%s_%s.xpi', $repo_owner, $repo_name, $locale);
-$output_abs = $site_root.'/html'.$output_http;
+$output_abs = $http_root.$output_http;
 
 if (isset($_POST['command'])) {
 	$command = $_POST['command'];

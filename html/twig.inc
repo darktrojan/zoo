@@ -3,7 +3,7 @@
 require_once 'twig/lib/Twig/Autoloader.php';
 Twig_Autoloader::register();
 
-$loader = new Twig_Loader_Filesystem($GLOBALS['site_root'].'/html');
+$loader = new Twig_Loader_Filesystem($GLOBALS['http_root']);
 $config = array();
 
 $GLOBALS['twig'] = new Twig_Environment($loader, $config);

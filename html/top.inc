@@ -3,6 +3,7 @@
 require_once 'hidden_funcs.inc';
 
 $site_root = dirname(dirname(__FILE__));
+$http_root = $site_root.'/html';
 $script_root = $site_root.'/scripts';
 $repo_root = $site_root.'/repos';
 $github_user = 'darktrojan-test';
