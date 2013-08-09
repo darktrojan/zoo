@@ -9,7 +9,7 @@ if (!isset($db_user)) {
 }
 
 $locale = $_POST['locale'];
-if (!preg_match('/^[a-z]{2}(-[A-Z]{2})?$/', $locale)) {
+if (!preg_match('/^([a-z]{2}(-[A-Z]{2})?|[a-z]{3})$/', $locale)) {
 	exit('not a valid locale');
 }
 

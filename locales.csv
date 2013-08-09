@@ -1,12 +1,11 @@
 ab-CD	Test
-# abc	Fail Test
-# ach	Acholi
+ach	Acholi
 af	Afrikaans
 sq	Albanian
 ar	Arabic
 hy-AM	Armenian
 as	Assamese
-# ast	Asturian
+ast	Asturian
 eu	Basque
 be	Belarusian
 bn-BD	Bengali (Bangladesh)
@@ -43,15 +42,15 @@ ga-IE	Irish
 it	Italian
 ja	Japanese
 kn	Kannada
-# csb	Kashubian
+csb	Kashubian
 kk	Kazakh
 km	Khmer
 ko	Korean
 lv	Latvian
-# lij	Ligurian
+lij	Ligurian
 lt	Lithuanian
 mk	Macedonian
-# mai	Maithili
+mai	Maithili
 ml	Malayalam
 mr	Marathi
 nb-NO	Norwegian (Bokmål)
@@ -80,4 +79,3 @@ tr	Turkish
 uk	Ukrainian
 vi	Vietnamese
 cy	Welsh
-# zy-XW	Test 2

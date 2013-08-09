@@ -5,7 +5,7 @@ if (!isset($_GET['locale'])) {
 }
 
 $locale = $_GET['locale'];
-if (!preg_match('/^[a-z]{2}(-[A-Z]{2})?$/', $locale)) {
+if (!preg_match('/^([a-z]{2}(-[A-Z]{2})?|[a-z]{3})$/', $locale)) {
 	exit('not a valid locale');
 }
 
