@@ -31,6 +31,9 @@ a:hover {
 .command.running {
 	background-color: rgba(0, 204, 0, 0.25);
 }
+.command.fatal {
+	background-color: rgba(204, 0, 0, 0.25);
+}
 .command > pre {
 	display: none;
 }

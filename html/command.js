@@ -19,6 +19,15 @@ function run_command(aCommandElement, aCallback) {
 		pre.textContent = aRequest.responseText;
 		aCommandElement.appendChild(pre);
 		aCallback(aRequest);
+	}, function() {
+		aCommandElement.classList.remove('running');
+		aCommandElement.classList.add('fatal');
+		var pre = document.createElement('pre');
+		pre.textContent = aRequest.responseText;
+		aCommandElement.appendChild(pre);
+		if (aCommandElement.dataset.fatal == 'false') {
+			aCallback(aRequest);
+		}
 	});
 }
 
