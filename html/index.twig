@@ -3,7 +3,8 @@
 {% block content %}
 	<h1>Welcome to Zoo!</h1>
 
-	{% if db_user is not null %}
+	{% set columns = (myrepos is not empty) or (mytranslations is not empty) %}
+	{% if columns %}
 		<div class="floatright rightcolumn">
 		{% for r in myrepos %}
 			{% if loop.first %}
@@ -43,7 +44,7 @@
 
 	<p>You can file issues on <a href="https://github.com/darktrojan/zoo/issues">Zoo's GitHub page</a>.</p>
 
-	{% if db_user is null %}
+	{% if not columns %}
 		<p>To begin translating, click the Sign In button in the top right corner.</p>
 	{% else %}
 		</div>
