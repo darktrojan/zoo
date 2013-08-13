@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-	<p>There are currently {{ repos | length - 1 }} repos.</p>
+	<p>There are currently {{ repos | length }} repos.</p>
     
 	{% for item in repos %}
 		{% if loop.first %}
