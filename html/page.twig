@@ -18,11 +18,9 @@
 	</a>
 	<div style="text-align: right">
 	{% if db_user %}
-		<a href="/dash.php">{{ db_user.email }}</a>
-		<!-- <input id="signout" type="button" value="Sign Out" /> -->
+		<a href="/dash.php">{{ db_user.name }}</a>
 		<a href="#" id="signout" class="persona-button"><span>Sign Out</span></a>
 	{% else %}
-		<!-- <input id="signin" type="button" value="Sign In" /> -->
 		<a href="#" id="signin" class="persona-button"><span>Sign In</span></a>
 	{% endif %}
 	</div>

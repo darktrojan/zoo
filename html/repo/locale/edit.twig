@@ -1,6 +1,6 @@
 {% extends "page.twig" %}
 
-{% block title %}{{ repo.fullname }} : {{ locale.name }} / {{ file }}{% endblock %}
+{% block title %}{{ db_repo.name }} &ndash; {{ locale.name }} &ndash; {{ file }}{% endblock %}
 
 {% block style %}
 td.key {
@@ -12,7 +12,7 @@ td.value {
 {% endblock style %}
 
 {% block content %}
-	<h2>{{ repo.owner }} / <b><a href="../repo.php">{{ repo.name }}</a></b> : {{ locale.name }} / {{ file }}</h2>
+	<h2><a href="../repo.php">{{ db_repo.name }}</a> &ndash; {{ locale.name }} &ndash; {{ file }}</h2>
 
 	<form action="save.php" method="post"><input type="hidden" name="file" value="{{ file }}" />
 

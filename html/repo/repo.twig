@@ -1,6 +1,6 @@
 {% extends "page.twig" %}
 
-{% block title %}{{ repo.fullname }}{% endblock %}
+{% block title %}{{ db_repo.name }}{% endblock %}
 
 {% block style %}
 .ok {
@@ -21,7 +21,7 @@
 {% endblock %}
 
 {% block content %}
-	<h2>{{ repo.owner }} / <b>{{ repo.name }}</b></h2>
+	<h2>{{ db_repo.name }}</h2>
 
 	<div class="floatright rightcolumn">
 		{% if db_user is not null %}

@@ -38,6 +38,7 @@ $context['repo'] = array(
 	'filenames' => $repo_files,
 	'branch' => $db_repo['branch']
 );
+$context['db_repo'] = $db_repo;
 
 function get_base_strings() {
 	global $db_repo, $script_root, $repo_path, $repo_locale_path, $file;

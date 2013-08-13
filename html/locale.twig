@@ -8,7 +8,7 @@
 			Repos missing {{ locale_name }} translation:
 			<ul>
 		{% endif %}
-		<li><a href="/{{ item.path }}/repo.php">{{ item.path }}</a></li>
+		<li><a href="/{{ item.path }}/repo.php">{{ item.name }}</a></li>
 		{% if loop.last %}
 			</ul>
 		{% endif %}
@@ -21,7 +21,7 @@
 			Repos with {{ locale_name }} translation:
 			<ul>
 		{% endif %}
-		<li><a href="/{{ item.path }}/repo.php">{{ item.path }}</a></li>
+		<li><a href="/{{ item.path }}/repo.php">{{ item.name }}</a></li>
 	{% endfor %}
 	{% if did_loop %}
 		</ul>

@@ -7,6 +7,8 @@ if (isset($db_user)) {
 	$myrepos = Repos::SelectReposByUser($db_user['id']);
 	$mytranslations = Translations::SelectTranslationsByUser($db_user['id']);
 	foreach ($mytranslations as &$translation) {
+		$repo = Repos::SelectOneRepo($translation['repo']);
+		$translation['repo_name'] = $repo['name'];
 		$translation['locale_name'] = get_locale_name($translation['locale']);
 	}
 }

@@ -11,7 +11,7 @@
 				<h3>Your Repos:</h3>
 				<ul>
 			{% endif %}
-			<li><a href="/{{ r.path }}/repo.php">{{ r.path }}</a></li>
+			<li><a href="/{{ r.path }}/repo.php">{{ r.name }}</a></li>
 			{% if loop.last %}
 				</ul>
 			{% endif %}
@@ -22,7 +22,7 @@
 				<h3>Your Translations:</h3>
 				<ul>
 			{% endif %}
-			<li><a href="/{{ t.repo }}/{{ t.locale }}/locale.php">{{ t.repo }} &ndash; {{ t.locale_name | default(t.locale) }}</a></li>
+			<li><a href="/{{ t.repo }}/{{ t.locale }}/locale.php">{{ t.repo_name }} &ndash; {{ t.locale_name | default(t.locale) }}</a></li>
 			{% if loop.last %}
 				</ul>
 			{% endif %}

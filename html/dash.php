@@ -1,21 +1,13 @@
 <?
 
 if (isset($db_user)) {
-	if (!!$db_user['github'] && is_dir($repo_root.'/'.$db_user['github'])) {
-		$repos = array();
-		$dir = opendir($repo_root.'/'.$db_user['github']);
-		while ($file = readdir($dir)) {
-			if ($file[0] == '.' || !is_dir($repo_root.'/'.$db_user['github'].'/'.$file)) {
-				continue;
-			}
-			$repos[] = $file;
-		}
-		closedir($dir);
-	}
+	$repos = Repos::SelectReposByUser($db_user['id']);
 
 	get_locales();
 	$translations = Translations::SelectTranslationsByUser($db_user['id']);
 	foreach ($translations as &$translation) {
+		$repo = Repos::SelectOneRepo($translation['repo']);
+		$translation['repo_name'] = $repo['name'];
 		$translation['locale_name'] = $global_locales[$translation['locale']];
 	}
 }

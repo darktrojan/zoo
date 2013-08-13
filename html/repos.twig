@@ -15,7 +15,7 @@
 		{% if loop.first %}
 			<ul>
 		{% endif %}
-		<li><a href="/{{ item.path }}/repo.php">{{ item.path }}</a> ({{ item.total_count }} language{{ item.total_count | pluralize("s") }}, {{ item.managed_count }} managed here)</li>
+		<li><a href="/{{ item.path }}/repo.php">{{ item.name }}</a> ({{ item.total_count }} language{{ item.total_count | pluralize("s") }}, {{ item.managed_count }} managed here)</li>
 		{% if loop.last %}
 			</ul>
 		{% endif %}
