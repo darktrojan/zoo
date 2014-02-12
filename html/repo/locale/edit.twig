@@ -3,6 +3,12 @@
 {% block title %}{{ db_repo.name }} &ndash; {{ locale.name }} &ndash; {{ file }}{% endblock %}
 
 {% block style %}
+tr.same {
+	outline: 2px solid orange;
+}
+tr.missing {
+	outline: 2px solid red;
+}
 td.key {
 	max-width: 300px;
 }
@@ -16,9 +22,16 @@ td.value {
 
 	<form action="save.php" method="post"><input type="hidden" name="file" value="{{ file }}" />
 
-	<table>
+	<table id="translation_strings">
 	{% for s in strings %}
-		<tr>
+		{% if s.locale_value == "" %}
+			{% set className = "missing" %}
+		{% elseif s.locale_value == s.base_value %}
+			{% set className = "same" %}
+		{% else %}
+			{% set className = "" %}
+		{% endif %}
+		<tr class="{{ className }}">
 		<td class="key" style="font-size: 11px">
 		<b>{{ s.key }}</b>
 		{% if s.comment %}
@@ -27,7 +40,7 @@ td.value {
 		{% endif %}
 		</td>
 		<td class="value">
-			{{ s.base_value }}<br />
+			<div class="base_value">{{ s.base_value }}</div>
 			<input type="text" name="locale_strings[{{ s.key }}]" value="{{ s.locale_value }}" style="width: 100%; -moz-box-sizing: border-box" />
 		</td>
 		</tr>
@@ -41,3 +54,25 @@ td.value {
 
 	</form>
 {% endblock content %}
+
+{% block script %}
+<script type="text/javascript">
+
+var stringsTable = document.getElementById('translation_strings');
+stringsTable.addEventListener('change', function(aEvent) {
+	var input = aEvent.originalTarget;
+	var row = input.parentNode.parentNode;
+	var inputValue = input.value.trim();
+	var baseValue = row.querySelector('.base_value').textContent.trim();
+
+	row.classList.remove('missing');
+	row.classList.remove('same');
+	if (!inputValue) {
+		row.classList.add('missing');
+	} else if (inputValue == baseValue) {
+		row.classList.add('same');
+	}
+});
+
+</script>
+{% endblock %}
