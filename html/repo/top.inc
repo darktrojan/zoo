@@ -52,3 +52,17 @@ function get_base_strings() {
 	$json = run($script_root.'/parse.py '.escapeshellarg($path));
 	return json_decode($json[0], true);
 }
+
+// NB: $locale_path_abs and $locale must be set before calling get_locale_strings.
+// From inside a locale, these are automatically set.
+function get_locale_strings() {
+	global $db_repo, $script_root, $locale_path_abs, $locale, $file;
+
+	if ($db_repo['jetpack']) {
+		$path = $locale_path_abs.'/'.$locale.'.properties';
+	} else {
+		$path = $locale_path_abs.'/'.$locale.'/'.$file;
+	}
+	$json = run($script_root.'/parse_strings.py '.escapeshellarg($path));
+	return json_decode($json[0], true);
+}

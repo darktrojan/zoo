@@ -40,15 +40,3 @@ if ($db_user['id'] == $locale_translator) {
 } else {
 	$context['locale']['db_translator'] = Users::SelectOneUser($locale_translator);
 }
-
-function get_locale_strings() {
-	global $db_repo, $script_root, $locale_path_abs, $locale, $file;
-
-	if ($db_repo['jetpack']) {
-		$path = $locale_path_abs.'/'.$locale.'.properties';
-	} else {
-		$path = $locale_path_abs.'/'.$locale.'/'.$file;
-	}
-	$json = run($script_root.'/parse_strings.py '.escapeshellarg($path));
-	return json_decode($json[0], true);
-}
