@@ -15,7 +15,7 @@ if ($db_repo['locales']) {
 	foreach (explode(',', $db_repo['locales']) as $l) {
 		$repo_locales[$l] = array(
 			'key' => $l,
-			'new' => true,
+			'external' => true,
 			'name' => $global_locales[$l]
 		);
 	}
@@ -25,7 +25,7 @@ foreach(Translations::SelectTranslationsByRepo($repo) as $t) {
 	$l = $t['locale'];
 	$repo_locales[$l] = array(
 		'key' => $l,
-		'new' => false,
+		'external' => false,
 		'name' => $global_locales[$l],
 		'summary' => $summary[$l]
 	);

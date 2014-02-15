@@ -57,8 +57,10 @@ if (isset($_POST['command'])) {
 			foreach ($db_files as $file) {
 				$dest = $locale_path_abs.'/'.$locale.'/'.$file['file'];
 				ensure_dir($dest, $locale_path_abs);
-				copy($locale_path_abs.'/en-US/'.$file['file'], $dest);
-				run_xhr('git add '.escapeshellarg($repo_locale_path.'/'.$locale.'/'.$file['file']));
+				if (!file_exists($dest)) {
+					copy($locale_path_abs.'/en-US/'.$file['file'], $dest);
+					run_xhr('git add '.escapeshellarg($repo_locale_path.'/'.$locale.'/'.$file['file']));
+				}
 			}
 			$cm = new ChromeManifest($locale_xpi_path_abs.'/chrome.manifest');
 			$cm->add_locale($locale);

@@ -30,13 +30,14 @@
 			Create a new translation: <select name="locale" required="">
 			<option></option>
 			{% for k, l in global_locales %}
-				{% if repo_locales[k] is null and k != "en-US" %}
-					<option value="{{ k }}">{{ l }}</option>
+				{% if k != "en-US" and (repo_locales[k] is null or repo_locales[k].external) %}
+					<option value="{{ k }}">{{ l }}{% if repo_locales[k].external %} *{% endif %}</option>
 				{% endif %}
 			{% endfor %}
 			</select>
 			<input type="submit" value="Go" />
 			</p>
+			<p>* Locale managed outside Zoo.</p>
 			</form>
 		{% endif %}
 
@@ -63,7 +64,7 @@
 			<tr>
 			<td>
 			{#% if l.key in db_user.locales %#}
-				{% if l.new %}
+				{% if l.external %}
 					{#<a href="?create={{ l.key }}">{{ l.name | default(l.key) }}</a>#}
 					{{ l.name | default(l.key) }}
 				{% else %}

@@ -90,3 +90,35 @@ function get_locale_name($locale = null) {
 	get_locales();
 	return $global_locales[$locale] ?: $locale;
 }
+
+// Only call this on the master workdir
+function run_parse_py($path) {
+	global $script_root;
+
+	$cachePath = $path.'.zoojson';
+	if (file_exists($cachePath) && filemtime($cachePath) > filemtime($path)) {
+		return file_get_contents($cachePath);
+	}
+
+	$json = run($script_root.'/parse.py '.escapeshellarg($path));
+	// $json is an array of lines of output
+	$json = implode('', $json);
+	file_put_contents($cachePath, $json);
+	return $json;
+}
+
+// Don't call this on the master workdir
+function run_parse_strings_py($path) {
+	global $script_root;
+
+	$cachePath = $path.'.zoojson';
+	if (file_exists($cachePath) && filemtime($cachePath) > filemtime($path)) {
+		return file_get_contents($cachePath);
+	}
+
+	$json = run($script_root.'/parse_strings.py '.escapeshellarg($path));
+	// $json is an array of lines of output
+	$json = implode('', $json);
+	file_put_contents($cachePath, $json);
+	return $json;
+}

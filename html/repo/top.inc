@@ -49,8 +49,8 @@ function get_base_strings() {
 		$path = $repo_path.'/master/'.$repo_locale_path.'/en-US/'.$file;
 	}
 
-	$json = run($script_root.'/parse.py '.escapeshellarg($path));
-	return json_decode($json[0], true);
+	$json = run_parse_py($path);
+	return json_decode($json, true);
 }
 
 // NB: $locale_path_abs and $locale must be set before calling get_locale_strings.
@@ -63,6 +63,41 @@ function get_locale_strings() {
 	} else {
 		$path = $locale_path_abs.'/'.$locale.'/'.$file;
 	}
-	$json = run($script_root.'/parse_strings.py '.escapeshellarg($path));
-	return json_decode($json[0], true);
+	$json = run_parse_strings_py($path);
+	return json_decode($json, true);
+}
+
+function update_translations($locales) {
+	global $db_files, $file, $locale, $repo_path, $repo_locale_path, $locale_path_abs, $repo;
+
+	DBConnection::BeginTransaction();
+	foreach ($db_files as $db_file) {
+		$file = $db_file['file'];
+		$base_strings = get_base_strings();
+		foreach ($locales as $locale) {
+			$locale_workdir = $repo_path.'/'.$locale;
+			$locale_path_abs = $locale_workdir.'/'.$repo_locale_path;
+			$locale_strings = get_locale_strings();
+			$ok = 0;
+			$same = 0;
+			$missing = 0;
+			foreach ($base_strings as $base_string) {
+				$key = $base_string['key'];
+				$value = $base_string['value'];
+				$locale_string = $locale_strings[$key];
+
+				if (!$locale_string) {
+					$missing++;
+				} elseif ($locale_string == $value) {
+					$same++;
+				} else {
+					$ok++;
+				}
+			}
+
+			var_dump($repo, $locale, $file, $ok + $same, $same);
+			Files::ReplaceFile($repo, $locale, $file, $ok + $same, $same);
+		}
+	}
+	DBConnection::CommitTransaction();
 }

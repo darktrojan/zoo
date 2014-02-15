@@ -106,7 +106,7 @@ function create_repo($repo, $update = false, $branch = null) {
 function count_strings($file) {
 	global $script_root;
 
-	$json = run($script_root.'/parse.py '.escapeshellarg($file));
+	$json = run_parse_py($file);
 	$json = $json[0];
 	$data = json_decode($json, true);
 	return sizeof($data);
