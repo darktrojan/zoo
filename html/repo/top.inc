@@ -74,7 +74,11 @@ function update_translations($locales) {
 	foreach ($db_files as $db_file) {
 		$file = $db_file['file'];
 		$base_strings = get_base_strings();
+		Files::ReplaceFile($repo, 'en-US', $file, sizeof($base_strings), 0);
 		foreach ($locales as $locale) {
+			if ($locale == 'en-US') {
+				continue;
+			}
 			$locale_workdir = $repo_path.'/'.$locale;
 			$locale_path_abs = $locale_workdir.'/'.$repo_locale_path;
 			$locale_strings = get_locale_strings();
