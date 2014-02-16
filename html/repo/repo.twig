@@ -8,12 +8,12 @@
 	height: 10px;
 	background-color: green;
 }
-.dupe {
+.same {
 	display: inline-block;
 	height: 10px;
 	background-color: orange;
 }
-.notok {
+.missing {
 	display: inline-block;
 	height: 10px;
 	background-color: red;
@@ -51,41 +51,36 @@
 		{% for l in repo_locales %}
 			{% set s = l.summary %}
 			{% set ok = s.string_count - s.string_dupe %}
-			{% set notok = base_summary.string_count - s.string_count %}
+			{% set missing = base_summary.string_count - s.string_count %}
 
 			{% if loop.first %}
-				<table>
+				<table width="100%">
 				<tr>
-				<th></th>
-				<th>Updated</th>
+				<th width="150"></th>
+				<th width="100" align="center">Updated</th>
 				<th>Summary</th>
 				</tr>
 			{% endif %}
 			<tr>
 			<td>
-			{#% if l.key in db_user.locales %#}
 				{% if l.external %}
-					{#<a href="?create={{ l.key }}">{{ l.name | default(l.key) }}</a>#}
 					{{ l.name | default(l.key) }}
 				{% else %}
 					<a href="{{ l.key }}/locale.php">{{ l.name | default(l.key) }}</a>
 				{% endif %}
-			{#% else %}
-				{{ l.name | default(l.key) }}
-			{% endif %#}
 			</td>
-			<td>{% if s is not null %}{{ s.updated | date("Y-m-d") }}{% endif %}</td>
+			<td align="center">{% if s is not null %}{{ s.updated | date("Y-m-d") }}{% endif %}</td>
 			<td>
 			{% if s is not null %}
 				{% spaceless %}
 				{% if ok %}
-					<div class="ok" title="{{ ok }} string{{ ok | pluralize("s have", " has") }} been translated" style="width: {{ ok * 10 }}px"></div>
+					<div class="ok" title="{{ ok }} string{{ ok | pluralize("s have", " has") }} been translated" style="width: {{ ok * 100 / base_summary.string_count }}%"></div>
 				{% endif %}
 				{% if s.string_dupe %}
-					<div class="dupe" title="{{ s.string_dupe }} string{{ s.string_dupe | pluralize("s match", " matches") }} the en-US string" style="width: {{ s.string_dupe * 10 }}px"></div>
+					<div class="same" title="{{ s.string_dupe }} string{{ s.string_dupe | pluralize("s match", " matches") }} the en-US string" style="width: {{ s.string_dupe * 100 / base_summary.string_count }}%"></div>
 				{% endif %}
-				{% if notok %}
-					<div class="notok" title="{{ notok }} string{{ notok | pluralize("s are", " is") }} missing" style="width: {{ notok * 10 }}px"></div>
+				{% if missing %}
+					<div class="missing" title="{{ missing }} string{{ missing | pluralize("s are", " is") }} missing" style="width: {{ missing * 100 / base_summary.string_count }}%"></div>
 				{% endif %}
 				{% endspaceless %}
 			{% endif %}

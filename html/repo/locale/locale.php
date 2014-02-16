@@ -7,6 +7,8 @@ if ($locale_user_is_translator) {
 	$dirty = sizeof($status);
 }
 
+$base_files = Files::SelectFilesByLocale($repo, 'en-US');
+
 $files = array();
 foreach (Files::SelectFilesByLocale($repo, $locale) as $file) {
 	if ($db_repo['jetpack']) {
@@ -18,4 +20,4 @@ foreach (Files::SelectFilesByLocale($repo, $locale) as $file) {
 }
 
 require_once 'twig.inc';
-render('repo/locale/locale.twig', compact('repo_files', 'files', 'dirty', 'db_locale'));
+render('repo/locale/locale.twig', compact('base_files', 'repo_files', 'files', 'dirty', 'db_locale'));
