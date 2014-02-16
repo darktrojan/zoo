@@ -70,7 +70,7 @@ do
 		mkdir -p "$(dirname "$new_workdir/.git/$x")"
 		;;
 	esac
-	ln -s "$git_dir/$x" "$new_workdir/.git/$x"
+	ln -s "../../master/.git/$x" "$new_workdir/.git/$x"
 done
 
 # now setup the workdir
