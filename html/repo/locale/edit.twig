@@ -20,39 +20,45 @@ td.value {
 {% block content %}
 	<h2><a href="../repo.php">{{ db_repo.name }}</a> &ndash; {{ locale.name }} &ndash; {{ file }}</h2>
 
-	<form action="save.php" method="post"><input type="hidden" name="file" value="{{ file }}" />
+	<div class="floatright rightcolumn">
+		<input type="button" onclick="copyBlank();" value="Fill missing strings with default" />
+	</div>
 
-	<table id="translation_strings">
-	{% for s in strings %}
-		{% if s.locale_value == "" %}
-			{% set className = "missing" %}
-		{% elseif s.locale_value == s.base_value %}
-			{% set className = "same" %}
-		{% else %}
-			{% set className = "" %}
-		{% endif %}
-		<tr class="{{ className }}">
-		<td class="key" style="font-size: 11px">
-		<b>{{ s.key }}</b>
-		{% if s.comment %}
-			<br />
-			<i>{{ s.comment }}</i>
-		{% endif %}
-		</td>
-		<td class="value">
-			<div class="base_value">{{ s.base_value }}</div>
-			<input type="text" name="locale_strings[{{ s.key }}]" value="{{ s.locale_value }}" style="width: 100%; -moz-box-sizing: border-box" />
-		</td>
+	<div class="leftcolumn">
+		<form action="save.php" method="post"><input type="hidden" name="file" value="{{ file }}" />
+
+		<table id="translation_strings">
+		{% for s in strings %}
+			{% if s.locale_value == "" %}
+				{% set className = "missing" %}
+			{% elseif s.locale_value == s.base_value %}
+				{% set className = "same" %}
+			{% else %}
+				{% set className = "" %}
+			{% endif %}
+			<tr class="{{ className }}">
+			<td class="key" style="font-size: 11px">
+			<b>{{ s.key }}</b>
+			{% if s.comment %}
+				<br />
+				<i>{{ s.comment }}</i>
+			{% endif %}
+			</td>
+			<td class="value">
+				<div class="base_value">{{ s.base_value }}</div>
+				<input type="text" name="locale_strings[{{ s.key }}]" value="{{ s.locale_value }}" style="width: 100%; -moz-box-sizing: border-box" />
+			</td>
+			</tr>
+		{% endfor %}
+		<tr>
+			<td class="submit" colspan="2">
+				<input type="submit" value="Save" />
+			</td>
 		</tr>
-	{% endfor %}
-	<tr>
-		<td class="submit" colspan="2">
-			<input type="submit" value="Save" />
-		</td>
-	</tr>
-	</table>
+		</table>
 
-	</form>
+		</form>
+	</div>
 {% endblock content %}
 
 {% block script %}
@@ -73,6 +79,19 @@ stringsTable.addEventListener('change', function(aEvent) {
 		row.classList.add('same');
 	}
 });
+
+function copyBlank() {
+	var rows = stringsTable.tBodies[0].rows;
+	for (var i = 0; i < rows.length; i++) {
+		var row = rows[i];
+		if (!row.classList.contains('missing')) {
+			continue;
+		}
+		row.querySelector('input[type="text"]').value = row.querySelector('.base_value').textContent.trim();
+		row.classList.remove('missing');
+		row.classList.add('same');
+	}
+}
 
 </script>
 {% endblock %}
