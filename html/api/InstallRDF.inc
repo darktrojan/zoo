@@ -11,6 +11,18 @@ class InstallRDF {
 		$this->path = $path;
 		$this->dom = DomDocument::load($this->path);
 		$this->dom->encoding = 'utf-8';
+
+		$whitespace = $this->dom->documentElement->firstChild;
+		if ($whitespace instanceof DOMText) {
+			$whitespace = $whitespace->nodeValue;
+			if (substr($whitespace, 0, 2) == "\r\n") {
+				$this->nl = "\r\n";
+			}
+			$this->tab = ltrim($whitespace, "\r\n");
+		} else {
+			$this->nl = '';
+			$this->tab = '';
+		}
 	}
 
 	function cat() {
