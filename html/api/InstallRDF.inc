@@ -4,6 +4,9 @@ class InstallRDF {
 	const RDF_NS = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
 	const EM_NS = 'http://www.mozilla.org/2004/em-rdf#';
 
+	private $nl = "\n";
+	private $tab = '  ';
+
 	function __construct($path) {
 		$this->path = $path;
 		$this->dom = DomDocument::load($this->path);
@@ -62,14 +65,27 @@ class InstallRDF {
 		$description_node = $this->dom->createElementNS(InstallRDF::EM_NS, 'description');
 		$description_text = $this->dom->createTextNode($description);
 
+		$last = $parent->lastChild;
+		if ($last instanceof DOMText && !trim($last->nodeValue)) {
+			$parent->removeChild($last);
+		}
+
+		$parent->appendChild($this->dom->createTextNode(str_repeat($this->nl, 2).str_repeat($this->tab, 2)));
 		$parent->appendChild($outer_locale_node);
+		$outer_locale_node->appendChild($this->dom->createTextNode($this->nl.str_repeat($this->tab, 3)));
 		$outer_locale_node->appendChild($outer_description_node);
+		$outer_description_node->appendChild($this->dom->createTextNode($this->nl.str_repeat($this->tab, 4)));
 		$outer_description_node->appendChild($locale_node);
 		$locale_node->appendChild($locale_text);
+		$outer_description_node->appendChild($this->dom->createTextNode($this->nl.str_repeat($this->tab, 4)));
 		$outer_description_node->appendChild($name_node);
 		$name_node->appendChild($name_text);
+		$outer_description_node->appendChild($this->dom->createTextNode($this->nl.str_repeat($this->tab, 4)));
 		$outer_description_node->appendChild($description_node);
+		$outer_description_node->appendChild($this->dom->createTextNode($this->nl.str_repeat($this->tab, 3)));
+		$outer_locale_node->appendChild($this->dom->createTextNode($this->nl.str_repeat($this->tab, 2)));
 		$description_node->appendChild($description_text);
+		$parent->appendChild($this->dom->createTextNode($this->nl.str_repeat($this->tab, 1)));
 
 		return $outer_locale_node;
 	}
