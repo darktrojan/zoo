@@ -55,6 +55,9 @@ if (isset($_POST['command'])) {
 
 		} else if (!is_dir($locale_path_abs.'/'.$locale)) {
 			foreach ($db_files as $file) {
+				if ($file['file'] == 'install.rdf') {
+					continue;
+				}
 				$dest = $locale_path_abs.'/'.$locale.'/'.$file['file'];
 				ensure_dir($dest, $locale_path_abs);
 				if (!file_exists($dest)) {
@@ -65,7 +68,9 @@ if (isset($_POST['command'])) {
 			$cm = new ChromeManifest($locale_xpi_path_abs.'/chrome.manifest');
 			$cm->add_locale($locale);
 			$cm->save();
-			chdir($db_repo['xpi_path']);
+			if ($db_repo['xpi_path']) {
+				chdir($db_repo['xpi_path']);
+			}
 			run_xhr('git add chrome.manifest');
 		}
 		break;
