@@ -20,6 +20,8 @@ if ($file == 'install.rdf') {
 		$installRDF->locale_add($locale, $locale_strings['name'], $locale_strings['description']);
 	}
 	$installRDF->save();
+	chdir($locale_workdir);
+	run('git add install.rdf');
 
 	$count = 2;
 	$same = 0;
@@ -61,10 +63,14 @@ if ($file == 'install.rdf') {
 
 	if ($db_repo['jetpack']) {
 		file_put_contents($locale_path_abs.'/'.$locale.'.properties', $contents);
+		chdir($locale_path_abs);
+		run('git add '.escapeshellarg($locale.'.properties'));
 		$file = 'en-US.properties';
 	} else {
 		ensure_directory(dirname($file));
 		file_put_contents($locale_path_abs.'/'.$locale.'/'.$file, $contents);
+		chdir($locale_path_abs);
+		run('git add '.escapeshellarg($locale.'/'.$file));
 	}
 }
 
