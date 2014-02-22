@@ -7,6 +7,8 @@ class InstallRDF {
 	private $nl = "\n";
 	private $tab = '  ';
 
+	private $path, $dom, $locale_nodes;
+
 	function __construct($path) {
 		$this->path = $path;
 		$this->dom = DomDocument::load($this->path);
@@ -41,29 +43,55 @@ class InstallRDF {
 		return InstallRDF::get_text_content_at($this->dom->documentElement, '/x:RDF/x:Description/em:description');
 	}
 
-	function get_locale_nodes() {
-		$nodes = array();
+	private function store_locale_nodes() {
+		if (is_array($this->locale_nodes)) {
+			return;
+		}
+
+		$this->locale_nodes = array();
 		foreach ($this->xpath($this->dom->documentElement, '/x:RDF/x:Description/em:localized') as $locale_node) {
 			$locale = InstallRDF::get_text_content_at($locale_node, 'x:Description/em:locale');
-			$nodes[$locale] = $locale_node;
+			$this->locale_nodes[$locale] = $locale_node;
 		}
-		return $nodes;
 	}
 
-	function locale_get_name($locale_node) {
-		return InstallRDF::get_text_content_at($locale_node, 'x:Description/em:name');
+	function get_locales() {
+		$this->store_locale_nodes();
+		return array_keys($this->locale_nodes);
 	}
 
-	function locale_get_description($locale_node) {
-		return InstallRDF::get_text_content_at($locale_node, 'x:Description/em:description');
+	function locale_get_name($locale) {
+		$this->store_locale_nodes();
+
+		if ($locale_node = $this->locale_nodes[$locale]) {
+			return InstallRDF::get_text_content_at($locale_node, 'x:Description/em:name');
+		}
+		return false;
 	}
 
-	function locale_set_name($locale_node, $name) {
-		InstallRDF::set_text_content_at($locale_node, 'x:Description/em:name', $name);
+	function locale_get_description($locale) {
+		$this->store_locale_nodes();
+
+		if ($locale_node = $this->locale_nodes[$locale]) {
+			return InstallRDF::get_text_content_at($locale_node, 'x:Description/em:description');
+		}
+		return false;
 	}
 
-	function locale_set_description($locale_node, $description) {
-		InstallRDF::set_text_content_at($locale_node, 'x:Description/em:description', $description);
+	function locale_set_name($locale, $name) {
+		$this->store_locale_nodes();
+
+		if ($locale_node = $this->locale_nodes[$locale]) {
+			InstallRDF::set_text_content_at($locale_node, 'x:Description/em:name', $name);
+		}
+	}
+
+	function locale_set_description($locale, $description) {
+		$this->store_locale_nodes();
+
+		if ($locale_node = $this->locale_nodes[$locale]) {
+			InstallRDF::set_text_content_at($locale_node, 'x:Description/em:description', $description);
+		}
 	}
 
 	function locale_add($locale, $name, $description) {
@@ -99,7 +127,7 @@ class InstallRDF {
 		$description_node->appendChild($description_text);
 		$parent->appendChild($this->dom->createTextNode($this->nl.str_repeat($this->tab, 1)));
 
-		return $outer_locale_node;
+		$this->locale_nodes[$locale] = $outer_locale_node;
 	}
 
 	private static function xpath($node, $xpath) {

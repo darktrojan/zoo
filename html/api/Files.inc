@@ -75,7 +75,6 @@ class Files extends DBConnection {
 	}
 
 	static function ReplaceFile($repo, $locale, $file, $string_count, $string_dupe) {
-		$updated = (int)$updated;
 		$string_count = (int)$string_count;
 		$string_dupe = (int)$string_dupe;
 
@@ -118,6 +117,16 @@ class Files extends DBConnection {
 				':repo' => $repo,
 				':locale' => $locale,
 				':file' => $file
+			)
+		);
+		return $stmt->rowCount() == 1;
+	}
+
+	static function DeleteFilesByRepo($repo) {
+		$stmt = self::CreateStatement('DELETE FROM files WHERE repo = :repo');
+		self::RunStatement(
+			$stmt, array(
+				':repo' => $repo
 			)
 		);
 		return $stmt->rowCount() == 1;
@@ -179,6 +188,10 @@ class Files extends DBConnection {
 				'repo' => DBConnection::TYPE_STRING,
 				'locale' => DBConnection::TYPE_STRING,
 				'file' => DBConnection::TYPE_STRING
+			);
+		case 'DeleteFilesByRepo':
+			return array(
+				'repo' => DBConnection::TYPE_STRING
 			);
 		}
 	}

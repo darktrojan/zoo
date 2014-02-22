@@ -43,6 +43,10 @@ $context['db_repo'] = $db_repo;
 function get_base_strings() {
 	global $db_repo, $script_root, $repo_path, $repo_locale_path, $file;
 
+	if ($file == 'install.rdf') {
+		return array();
+	}
+
 	if ($db_repo['jetpack']) {
 		$path = $repo_path.'/master/'.$repo_locale_path.'/en-US.properties';
 	} else {
@@ -74,28 +78,34 @@ function update_translations($locales) {
 	foreach ($db_files as $db_file) {
 		$file = $db_file['file'];
 		$base_strings = get_base_strings();
-		Files::ReplaceFile($repo, 'en-US', $file, sizeof($base_strings), 0);
 		foreach ($locales as $locale) {
 			if ($locale == 'en-US') {
 				continue;
 			}
 			$locale_workdir = $repo_path.'/'.$locale;
-			$locale_path_abs = $locale_workdir.'/'.$repo_locale_path;
-			$locale_strings = get_locale_strings();
-			$ok = 0;
-			$same = 0;
-			$missing = 0;
-			foreach ($base_strings as $base_string) {
-				$key = $base_string['key'];
-				$value = $base_string['value'];
-				$locale_string = $locale_strings[$key];
 
-				if (!$locale_string) {
-					$missing++;
-				} elseif ($locale_string == $value) {
-					$same++;
-				} else {
-					$ok++;
+			if ($file == 'install.rdf') {
+				$installRDF = new InstallRDF($locale_workdir.'/install.rdf');
+				$ok = array_search($locale, $installRDF->get_locales()) === false ? 0 : 2;
+				$same = 0;
+			} else {
+				$locale_path_abs = $locale_workdir.'/'.$repo_locale_path;
+				$locale_strings = get_locale_strings();
+				$ok = 0;
+				$same = 0;
+				$missing = 0;
+				foreach ($base_strings as $base_string) {
+					$key = $base_string['key'];
+					$value = $base_string['value'];
+					$locale_string = $locale_strings[$key];
+
+					if (!$locale_string) {
+						$missing++;
+					} elseif ($locale_string == $value) {
+						$same++;
+					} else {
+						$ok++;
+					}
 				}
 			}
 

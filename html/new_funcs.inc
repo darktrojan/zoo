@@ -37,9 +37,9 @@ function create_repo($repo, $update = false, $branch = null) {
 
 		$locales = $cm->locales;
 
+		$files = array('install.rdf' => 2);
 		$locale_dir = $repo_path.'/master/'.$repo_locale_path.'/en-US';
 		chdir($locale_dir);
-		$files = array();
 		foreach (run('find -name "*.dtd" -o -name "*.properties"') as $file) {
 			$file = substr($file, 2);
 			$count = count_strings($file);
@@ -107,7 +107,6 @@ function count_strings($file) {
 	global $script_root;
 
 	$json = run_parse_py($file);
-	$json = $json[0];
 	$data = json_decode($json, true);
 	return sizeof($data);
 }
