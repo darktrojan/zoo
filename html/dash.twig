@@ -6,7 +6,7 @@
 			<h2>Repos:</h2>
 			<ul>
 		{% endif %}
-		<li><a href="/{{ db_user.github }}/{{ r }}/repo.php">{{ r.name }}</a></li>
+		<li><a href="/{{ r.path }}/repo.php">{{ r.name }}</a></li>
 		{% if loop.last %}
 			</ul>
 		{% endif %}

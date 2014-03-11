@@ -111,6 +111,10 @@ function run_parse_py($path) {
 function run_parse_strings_py($path) {
 	global $script_root;
 
+	if (!file_exists($path)) {
+		return '';
+	}
+
 	$cachePath = $path.'.zoojson';
 	if (file_exists($cachePath) && filemtime($cachePath) > filemtime($path)) {
 		return file_get_contents($cachePath);

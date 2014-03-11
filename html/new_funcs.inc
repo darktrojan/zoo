@@ -10,8 +10,8 @@ function create_repo($repo, $update = false, $branch = null) {
 
 	chdir($repo_path.'/master');
 	if ($branch) {
-		run('git checkout '.escapeshellarg($branch));
-		run('git merge --ff-only '.escapeshellarg('origin/'.$branch));
+		run_xhr('git checkout '.escapeshellarg($branch), false);
+		run_xhr('git merge --ff-only '.escapeshellarg('origin/'.$branch));
 	}
 
 	$xpi_path = '';
