@@ -64,7 +64,7 @@ class Files extends DBConnection {
 	}
 
 	static function CreateLocale($repo, $locale) {
-		$stmt = self::CreateStatement('INSERT INTO files (SELECT repo, :locale, file, NOW() , string_count, string_count FROM files WHERE repo = :repo AND locale = \'en-US\')');
+		$stmt = self::CreateStatement('INSERT INTO files (SELECT repo, :locale, file, NOW(), string_count, string_count FROM files WHERE repo = :repo AND locale = \'en-US\')');
 		self::RunStatement(
 			$stmt, array(
 				':repo' => $repo,

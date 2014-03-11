@@ -11,7 +11,7 @@ if (isset($_POST['command'])) {
 
 	switch ($command) {
 	case 'commit':
-		run_xhr('git status --short');
+		run_xhr('git status --short -u no');
 		run_xhr(
 			'git commit -m '.
 			escapeshellarg('Update '.$locale_name.' translation').' '.

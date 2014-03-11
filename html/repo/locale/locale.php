@@ -2,7 +2,7 @@
 
 if ($locale_user_is_translator) {
 	chdir($locale_workdir);
-	$status = run('git status --short');
+	$status = run('git status --short -u no');
 
 	$dirty = sizeof($status);
 }
