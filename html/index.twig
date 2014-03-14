@@ -1,5 +1,7 @@
 {% extends "page.twig" %}
 
+{% block title %}Zoo{% endblock %}
+
 {% block content %}
 	<h1>Welcome to Zoo!</h1>
 
@@ -33,6 +35,9 @@
 	{% endif %}
 
 	<p>Zoo is a means of localizing Mozilla extensions that uses Git and GitHub for file management. There are currently <a href="/repos.php">{{ repos | length }} repos</a>, and translations in <a href="/locales.php">{{ summary | length - 1 }} languages</a>.</p>
+
+	<p>Here's how it works: your code is on GitHub, Zoo forks it, translators translate it, then Zoo sends you a pull request. You merge the changes into your code and release them. Easy.</p>
+	<p style="text-align: center;"><img src="/images/forkjoin.svg" /></p>
 
 	<p>Known issues:</p>
 	<ul>
