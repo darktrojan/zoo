@@ -21,7 +21,7 @@ if ($file == 'install.rdf') {
 	}
 	$installRDF->save();
 	chdir($locale_workdir);
-	run('git add install.rdf');
+	// run('git add install.rdf');
 
 	$count = 2;
 	$same = 0;

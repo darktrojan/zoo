@@ -71,7 +71,7 @@ if (isset($_POST['command'])) {
 			if ($db_repo['xpi_path']) {
 				chdir($db_repo['xpi_path']);
 			}
-			run_xhr('git add chrome.manifest');
+			// run_xhr('git add chrome.manifest');
 		}
 		break;
 

@@ -2,8 +2,9 @@
 
 if ($locale_user_is_translator) {
 	chdir($locale_workdir);
-	$status = run('git status --short -u no');
 
+	require_once 'git_funcs.inc';
+	$status = git_modified();
 	$dirty = sizeof($status);
 }
 
