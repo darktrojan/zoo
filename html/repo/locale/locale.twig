@@ -29,7 +29,9 @@
 		{% endif %}
 		{% if dirty > 0 %}
 			<p>{{ dirty }} file{{ dirty | pluralize('s have', ' has') }} been modified
-			<input type="button" onclick="location.href='git.php'" value="Upload changes"></p>
+			{% if locale.user_is_translator %}
+				<input type="button" onclick="location.href='git.php'" value="Upload changes"></p>
+			{% endif %}
 		{% endif %}
 
 		<p><a href="xpi.php">Download add-on with your changes</a></p>

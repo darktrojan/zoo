@@ -27,14 +27,14 @@
 		{% if db_user is not null %}
 			<form action="new.php" method="post">
 			<p>
-			Create a new translation: <select name="locale" required="">
+			Create a new translation: <select name="locale" required="">{% spaceless %}
 			<option></option>
 			{% for k, l in global_locales %}
 				{% if k != "en-US" and (repo_locales[k] is null or repo_locales[k].external) %}
 					<option value="{{ k }}">{{ l }}{% if repo_locales[k].external %} *{% endif %}</option>
 				{% endif %}
 			{% endfor %}
-			</select>
+			{% endspaceless %}</select>
 			<input type="submit" value="Go" />
 			</p>
 			<p>* Locale managed outside Zoo.</p>
@@ -43,6 +43,9 @@
 
 		{% if repo.user_is_owner %}
 			<p><input type="button" onclick="location.href='update.php'" value="Update repository" /></p>
+		{% endif %}
+		{% if db_user is null %}
+			<p>To begin a new translation, first click the Sign In button above.</p>
 		{% endif %}
 		<p><a href="https://github.com/{{ repo.owner }}/{{ repo.name }}">See {{ repo.owner }}/{{ repo.name }} on GitHub</a>
 	</div>

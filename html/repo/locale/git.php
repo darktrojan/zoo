@@ -11,17 +11,18 @@ if (isset($_POST['command'])) {
 
 	switch ($command) {
 	case 'commit':
+		$translator = Users::SelectOneUser($locale_translator);
 		require_once 'git_funcs.inc';
 		git_add_all();
 		run_xhr(
 			'git commit -m '.
 			escapeshellarg('Update '.$locale_name.' translation').' '.
-			'--author '.escapeshellarg($db_user['name'].' <'.$db_user['email'].'>')
+			'--author '.escapeshellarg($translator['name'].' <'.$translator['email'].'>')
 		);
 		break;
 
 	case 'push':
-		run_xhr('git push downstream '.$locale);
+		run_xhr('git push downstream '.escapeshellarg($locale).' -f 2>&1');
 		break;
 
 	case 'checkpull':

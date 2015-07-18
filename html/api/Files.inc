@@ -19,7 +19,7 @@ class Files extends DBConnection {
 	}
 
 	static function SelectSummaryAll() {
-		$stmt = self::CreateStatement('SELECT locale, SUM(string_count) AS string_count, SUM(string_dupe) AS string_dupe FROM `files` GROUP BY locale ORDER BY string_count DESC');
+		$stmt = self::CreateStatement('SELECT locale, SUM(string_count) AS string_count, SUM(string_dupe) AS string_dupe FROM `files` GROUP BY locale ORDER BY string_count DESC, string_dupe ASC');
 		self::RunStatement($stmt);
 		return $stmt->fetchAll();
 	}

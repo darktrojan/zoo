@@ -27,10 +27,10 @@
 			{% spaceless %}
 			<td width="200">
 				{% if ok %}
-					<div class="ok" style="width: {{ (ok / max * 200) | number_format(0) }}px"></div>
+					<div class="ok" title="{{ ok }} string{{ ok | pluralize("s have", " has") }} been translated" style="width: {{ (ok / max * 200) | number_format(0) }}px"></div>
 				{% endif %}
 				{% if item.string_dupe %}
-					<div class="dupe" style="width: {{ (item.string_dupe / max * 200) | number_format(0) }}px"></div>
+					<div class="dupe" title="{{ item.string_dupe }} string{{ item.string_dupe | pluralize("s match", " matches") }} the en-US string" style="width: {{ (item.string_dupe / max * 200) | number_format(0) }}px"></div>
 				{% endif %}
 			</td>
 			{% endspaceless %}

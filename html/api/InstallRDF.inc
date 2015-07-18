@@ -146,7 +146,12 @@ class InstallRDF {
 
 	private static function set_text_content_at($node, $xpath, $text) {
 		foreach (InstallRDF::xpath($node, $xpath) as $element) {
-			$element->replaceChild($node->ownerDocument->createTextNode($text), $element->firstChild);
+			$textNode = $node->ownerDocument->createTextNode($text);
+			if ($element->firstChild) {
+				$element->replaceChild($textNode, $element->firstChild);
+			} else {
+				$element->appendChild($textNode);
+			}
 			return;
 		}
 	}
